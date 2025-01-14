@@ -1,74 +1,27 @@
-.mainbox {
+* {
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+}
+.card {
+    width: 200px;
+    height: 200px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    text-align: center;
+}
+
+.card img {
+    height: 100%;
+    width: 100px;
+}
+
+.start {
+    background-color: rgb(113, 175, 185);
+    color: black;
+}
+main {
     display: flex;
-    flex-direction: column;
-}
-.thirdbox {
-    display: flex;
-    flex: row;
-}
-.red {
-    background-color: red;
-    height: 50px;
-    margin-bottom: 5px;
-}
-.yellow {
-    background-color: yellow;
-    height: 150px;
-    margin-bottom: 5px;
-}
-.blue {
-    background-color: blue;
-    height: 500px;
-    width: 100%;
-    margin-right: 5px;
-}
-.green {
-    background-color: green;
-    height: 250px;
-    margin-bottom: 5px;
-}
-.brown {
-    background-color: brown;
-    height: 250px;
-    width: 50%;
-    margin-right: 5px;
-}
-.grey {
-    background-color: grey;
-    height: 125px;
-    width: 100%;
-    margin-bottom: 5px;
-}
-.white {
-    background-color: pink;
-    height: 125px;
-    width: 50%;
-}
-.black {
-    background-color: black;
-    height: 125px;
-    width: 50%;
-}
-.aligné {
-    display: flex;
-    flex-direction: column;
-}
-.okbox {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-.boxbas {
-    display: flex;
-    flex-direction: row;
-}
-.boxterre {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-.dernierebox {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
 }
