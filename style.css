@@ -1,27 +1,39 @@
-* {
-    margin: 0;
-    list-style: none;
-    text-decoration: none;
-}
-.card {
-    width: 200px;
-    height: 200px;
-    background-color: #f2f2f2;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+body {
+    padding-top: 6%;
+    font-family: Arial, sans-serif;
     text-align: center;
+    margin: 20px;
+    background-image: url("NDg2MmViN2EtM2MxMS00NWM5LWFkOTUtMjI4MmFiNWM5ZTNi_f8d8ac9d-5e5f-4589-ab19-0b31d0b6f1f8_culinaire2-scaled.jpg");
 }
-
-.card img {
-    height: 100%;
-    width: 100px;
-}
-
-.start {
-    background-color: rgb(113, 175, 185);
-    color: black;
-}
-main {
+#display {
     display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin-top: 20px;
+}
+.recipe {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    width: 300px;
+    background-color: #b98d66;
+}
+.recipe img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #218838;
+}
+h1 {
+    color: aliceblue;
 }
