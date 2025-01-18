@@ -1,60 +1,101 @@
-async function getGameIdByName(gameName) {
-    const url = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
+const fs = require("fs");
 
-    try {
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
+function getGameIdByName(gameName) {
+    return fetch("https://api.steampowered.com/ISteamApps/GetAppList/v2/", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to fetch data. Status code: ${response.status}`,
+                );
+            }
+
+            return response.json();
+        })
+        .then((data) => {
+            if (!data.applist || !data.applist.apps) {
+                throw new Error("Invalid response data");
+            }
+
             const apps = data.applist.apps;
 
-            // Find the game by name (case-insensitive)
             const game = apps.find(
                 (app) => app.name.toLowerCase() === gameName.toLowerCase(),
             );
 
             if (game) {
-                return game.appid; // Return the app ID if found
+                return game.appid;
             } else {
-                return `Game "${gameName}" not found.`;
+                throw new Error(`Game "${gameName}" not found.`);
             }
-        } else {
-            return `Failed to fetch data. Status code: ${response.status}`;
-        }
-    } catch (error) {
-        return `An error occurred: ${error.message}`;
-    }
+        })
+        .catch((error) => {
+            throw new Error(`An error occurred: ${error.message}`);
+        });
 }
-async function getGameDetails(appid) {
+
+function getGameDetails(appid) {
     const url = `https://store.steampowered.com/api/appdetails?appids=${appid}`;
 
-    try {
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
-            const gameDetails = data[appid];
-            if (gameDetails.success) {
-                // console.log(gameDetails.data); // Game details object
-                return gameDetails.data;
-            } else {
-                console.error("Game details not available.");
-                return null;
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to fetch data. Status: ${response.status}`,
+                );
             }
-        } else {
-            console.error(`Failed to fetch data. Status: ${response.status}`);
+
+            return response.json();
+        })
+        .then((data) => {
+            const gameDetails = data[appid];
+
+            if (!gameDetails || !gameDetails.success) {
+                throw new Error("Game details not available.");
+            }
+
+            return gameDetails.data;
+        })
+        .catch((error) => {
+            console.error(`An error occurred: ${error.message}`);
             return null;
+        });
+}
+
+function saveToFile(appId, data) {
+    const fileName = `info//${appId}.json`;
+    fs.writeFile(fileName, JSON.stringify(data, null, 2), (err) => {
+        if (err) {
+            console.error(`Failed to save data to ${fileName}:`, err.message);
+        } else {
+            console.log(`Data successfully saved to ${fileName}`);
         }
-    } catch (error) {
-        console.error(`An error occurred: ${error.message}`);
-        return null;
-    }
+    });
 }
 
 // Example usage:
-console.log(getGameIdByName("Paladins"));
-
-// getGameDetails() // Replace 570 with the desired app ID
-//     .then((data) => {
-//         if (data) {
-//             console.log("Game Details:", data["name"]);
-//         }
-//     });
+const gameName = "Rocket League";
+getGameIdByName(gameName)
+    .then((appId) => {
+        console.log(`App ID for "${gameName}":`, appId);
+        return getGameDetails(appId).then((gameDetails) => {
+            if (gameDetails) {
+                saveToFile(appId, gameDetails); // Save using app ID as filename
+            } else {
+                console.log("Game details not found.");
+            }
+        });
+    })
+    .catch((error) => {
+        console.error(error.message);
+    });
+module.exports = getGameDetails;

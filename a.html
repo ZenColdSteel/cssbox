@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <div class="info"></div>
+
+        <script>
+            // Function to display JSON data on the webpage
+            function displayJsonData(data) {
+                const infoDiv = document.querySelector(".info");
+
+                // Create elements to display the data
+                const nameElement = document.createElement("h2");
+                nameElement.textContent = `Game Name: ${data.name}`;
+
+                const appidElement = document.createElement("p");
+                appidElement.textContent = `App ID: ${data.steam_appid}`;
+
+                const priceElement = document.createElement("p");
+                priceElement.textContent = `Price: ${data.price || "N/A"}`; // You may need to add price if available
+
+                const releaseDateElement = document.createElement("p");
+                releaseDateElement.textContent = `Release Date: ${
+                    data.release_date || "N/A"
+                }`;
+
+                const developerElement = document.createElement("p");
+                developerElement.textContent = `Developer: ${data.developers.join(
+                    ", ",
+                )}`;
+
+                // Append the elements to the info div
+                infoDiv.appendChild(nameElement);
+                infoDiv.appendChild(appidElement);
+                infoDiv.appendChild(priceElement);
+                infoDiv.appendChild(releaseDateElement);
+                infoDiv.appendChild(developerElement);
+            }
+
+            // Fetch the JSON data from a file (e.g., data.json)
+            fetch("display_data/data.json") // Update path to match the folder structure
+                .then((response) => response.json())
+                .then((data) => displayJsonData(data))
+                .catch((error) =>
+                    console.error("Error fetching JSON data:", error),
+                );
+        </script>
+    </body>
+</html>
